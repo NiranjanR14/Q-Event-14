@@ -2,7 +2,7 @@
 
 import EventCard from "@/components/EventCard";
 import SwiperComponent from "@/components/SwiperComponent";
-import React, {useState, useEffect } from "react";
+import React, {useState, useEffect, Suspense } from "react";
 import { dummyEvents } from "@/constants/dummyEvents";
 import { useSearchParams } from 'next/navigation';
 
@@ -11,8 +11,8 @@ function Events() {
     const [data, setData] = useState([]);
     const searchParams = useSearchParams();
 
-    const artist = searchParams.get('artist');
-    const tag = searchParams.get('tag');
+    const artist = searchParams?.get('artist');
+    const tag = searchParams?.get('tag');
 
     const classes = ['tags', 'date', 'location', 'cardName', 'detail']
 
@@ -96,4 +96,10 @@ function Events() {
   );
 }
 
-export default Events;
+export default function EventsPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Events />
+    </Suspense>
+  );
+}
